@@ -48,7 +48,12 @@ pub struct CourseGrade {
 }
 
 impl CourseGrade {
-    pub fn new(course_code: String, course_name: String, credits: u16, grade: Grade) -> CourseGrade {
+    pub fn new(
+        course_code: String,
+        course_name: String,
+        credits: u16,
+        grade: Grade,
+    ) -> CourseGrade {
         CourseGrade {
             course_code,
             course_name,
@@ -247,12 +252,7 @@ mod tests {
 
     #[test]
     fn test_quality_points() {
-        let course = CourseGrade::new(
-            String::from("IS4010"),
-            String::from("App Dev"),
-            3,
-            Grade::A,
-        );
+        let course = CourseGrade::new(String::from("IS4010"), String::from("App Dev"), 3, Grade::A);
         assert_eq!(course.quality_points(), 12.0);
 
         let course2 = CourseGrade::new(
