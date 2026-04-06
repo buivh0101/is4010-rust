@@ -203,7 +203,10 @@ mod tests {
         stack.push(String::from("second"));
 
         let collected: Vec<String> = stack.collect();
-        assert_eq!(collected, vec![String::from("second"), String::from("first")]);
+        assert_eq!(
+            collected,
+            vec![String::from("second"), String::from("first")]
+        );
     }
 
     #[test]
