@@ -1,11 +1,11 @@
+#![allow(dead_code)]
+
 mod student;
 
-fn main() {
-    println!("Student management system");
+use student::{CourseGrade, Grade, Student, StudentDatabase};
 
-    // Once you have implemented all methods in student.rs, uncomment this block:
-    /*
-    use student::{CourseGrade, Grade, Student, StudentDatabase};
+fn main() {
+    println!("Student Management System");
 
     let mut db = StudentDatabase::new();
 
@@ -14,7 +14,6 @@ fn main() {
         String::from("Alice Johnson"),
         String::from("alice@example.com"),
     );
-
     alice.add_grade(CourseGrade::new(
         String::from("IS4010"),
         String::from("App Dev with AI"),
@@ -22,11 +21,46 @@ fn main() {
         Grade::A,
     ));
 
-    println!("Student: {}", alice.name);
-    println!("GPA: {:.2}", alice.calculate_gpa());
-    println!("Standing: {}", alice.class_standing());
+    let mut bob = Student::new(
+        String::from("S002"),
+        String::from("Bob Smith"),
+        String::from("bob@example.com"),
+    );
+    bob.add_grade(CourseGrade::new(
+        String::from("IS3050"),
+        String::from("Database Design"),
+        3,
+        Grade::B,
+    ));
 
-    db.add_student(alice).unwrap();
-    println!("Students in database: {}", db.student_count());
-    */
+    match db.add_student(alice) {
+        Ok(()) => println!("Added Alice"),
+        Err(e) => println!("Error: {}", e),
+    }
+
+    match db.add_student(bob) {
+        Ok(()) => println!("Added Bob"),
+        Err(e) => println!("Error: {}", e),
+    }
+
+    println!("\nDatabase Statistics:");
+    println!("Total students: {}", db.student_count());
+    println!("Average GPA: {:.2}", db.average_gpa());
+
+    println!("\nAll Students:");
+    for student in db.list_students() {
+        println!(
+            "  {} - {} (GPA: {:.2})",
+            student.id,
+            student.name,
+            student.calculate_gpa(),
+        );
+    }
+
+    if let Some(student) = db.find_student("S001") {
+        println!("\nFound student: {}", student.name);
+        println!("  Email: {}", student.email);
+        println!("  Credits: {}", student.credits_earned);
+        println!("  GPA: {:.2}", student.calculate_gpa());
+    }
 }
